@@ -1,0 +1,6 @@
+[submodule "opt/fmt"]
+	path = opt/fmt
+	url = https://github.com/fmtlib/fmt.git
+[submodule "opt/pugixml"]
+	path = opt/pugixml
+	url = https://github.com/zeux/pugixml.git
