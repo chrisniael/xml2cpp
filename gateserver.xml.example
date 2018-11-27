@@ -1,14 +1,24 @@
 <?xml version="1.0" enconding="UTF-8"?>
 <gateserver id="1" ip="0.0.0.0" port="1234" thread="8">
-	<log>
-		<name>gate</name>
-		<path>log/gateserver.log</path>
-		<level>trace</level>
-		<flush>info</flush>
-		<thread>1</thread>
-	</log>
+  <log>
+    <name>gate</name>
+    <path>log/gateserver.log</path>
+    <level>trace</level>
+    <flush>info</flush>
+    <thread>1</thread>
+  </log>
+  <log2>
+    <name2>gate2</name2>
+    <path2>log/gateserver.log2</path2>
+    <level2>trace2</level2>
+    <flush2>info2</flush2>
+    <thread2>2</thread2>
+  </log2>
+
+  <!--
 	<queueserver>
 		<item ip="127.0.0.1" port="1235" />
 		<item ip="127.0.0.1" port="1236" />
   </queueserver>
+  -->
 </gateserver>

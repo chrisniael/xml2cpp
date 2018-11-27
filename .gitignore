@@ -81,3 +81,5 @@ build
 
 # ---> Config
 *.xml
+
+src/*.xml.h
