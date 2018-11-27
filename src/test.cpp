@@ -17,14 +17,4 @@ int main() {
   std::cout << config::gateserver().ip.as_string() << std::endl;
   std::cout << config::gateserver().port.as_string() << std::endl;
   std::cout << config::gateserver().thread.as_string() << std::endl;
-
-  std::cout << config::gateserver().log().name().as_string() << std::endl;
-  std::cout << config::gateserver().log().path().as_string() << std::endl;
-  std::cout << config::gateserver().log().level().as_string() << std::endl;
-  std::cout << config::gateserver().log().flush().as_string() << std::endl;
-  std::cout << config::gateserver().log().thread().as_string() << std::endl;
-
-  std::cout << config::gateserver().log2().name2().as_string() << std::endl;
-  std::cout << config::gateserver().log2().path2().as_string() << std::endl;
-  std::cout << config::gateserver().log2().level2().as_string() << std::endl;
 }
