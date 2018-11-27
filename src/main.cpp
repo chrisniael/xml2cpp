@@ -52,6 +52,7 @@ void ParseNode(const pugi::xml_node& node) {
                 << node_attr.as_string() << std::endl;
     }
 
+    // 带 PlainData 子节点的父节点
     for (const pugi::xml_node& child_node : node.children()) {
       if (child_node.type() == pugi::node_pcdata) {
         std::cout << "node text=" << node.text().as_string() << std::endl;
@@ -59,8 +60,37 @@ void ParseNode(const pugi::xml_node& node) {
       }
     }
 
+    // 带重复子节点的父节点
     bool has_repeate_child = false;
+    const pugi::xml_node* target_node = nullptr;
     for (const pugi::xml_node& child_node : node.children()) {
+      if (child_node.type() != pugi::node_element) {
+        break;
+      }
+      if (target_node == nullptr) {
+        target_node = &child_node;
+      } else {
+        if (target_node->type() != child_node.type()) {
+          break;
+        }
+        for (const pugi::xml_attribute& node_attr : target_node->attributes()) {
+          const pugi::xml_attribute& child_node_attr =
+              child_node.attribute(node_attr.name());
+          if (child_node_attr.empty()) {
+            break;
+          }
+        }
+      }
+    }
+    if (has_repeate_child) {
+      return;
+    }
+
+    // 普通的父节点
+
+    // 递归处理子节点
+    for (const pugi::xml_node& child_node : node.children()) {
+      ParseNode(child_node);
     }
   }
 }

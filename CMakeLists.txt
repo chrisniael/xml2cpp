@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(xml-cpp-generator)
+project(xml2cpp)
 
 message(STATUS "CMake version: " ${CMAKE_VERSION})
 if(NOT ${CMAKE_VERSION} VERSION_LESS "3.2")
