@@ -11,7 +11,7 @@
 #include "gateserver.xml.h"
 
 int main() {
-  config::Init();
+  config::Init("gateserver.xml.example");
 
   std::cout << config::name().as_string() << std::endl;
   std::cout << config::thread().as_string() << std::endl;
@@ -50,7 +50,7 @@ int main() {
   }
 
   std::cout << config::d().item3().size() << std::endl;
-  for(auto& item3 : config::d().item3()) {
+  for (auto& item3 : config::d().item3()) {
     std::cout << item3.ip.as_string() << std::endl;
     std::cout << item3.port.as_string() << std::endl;
     std::cout << item3.a().as_string() << std::endl;

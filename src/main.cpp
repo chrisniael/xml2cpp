@@ -14,16 +14,16 @@
 #include <fmt/format.h>
 #include <pugixml.hpp>
 
-std::string GlobalInitFuncBeg(const std::string& filename) {
+std::string GlobalInitFuncBeg() {
   return fmt::format(
-      "bool Init() {{\n"
+      "bool Init(const std::string& xml_file) {{\n"
       "  pugi::xml_document xml_node;\n"
-      "  pugi::xml_parse_result result = xml_node.load_file(\"{0}\");\n"
+      "  pugi::xml_parse_result result = "
+      "xml_node.load_file(xml_file.c_str());\n"
       "  if (!result) {{\n"
       "    std::cerr << \"load xml error.\" << std::endl;\n"
       "    return false;\n"
-      "  }}\n",
-      filename);
+      "  }}\n");
 }
 
 std::string GlobalInitFuncEnd() {
@@ -292,7 +292,7 @@ std::string ParseRepeatedNode(pugi::xml_node node, std::stringstream& ss) {
 void ParseRootNode(pugi::xml_node node, std::stringstream& ss) {
   std::string code_member_var_init = ParseChildNode(node, ss);
 
-  ss << GlobalInitFuncBeg("gateserver.xml.example");
+  ss << GlobalInitFuncBeg();
   ss << std::endl;
   ss << code_member_var_init;
   ss << std::endl;
