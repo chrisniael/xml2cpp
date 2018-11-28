@@ -1,24 +1,58 @@
 <?xml version="1.0" enconding="UTF-8"?>
-<gateserver id="1" ip="0.0.0.0" port="1234" thread="8">
-  <log>
-    <name>gate</name>
-    <path>log/gateserver.log</path>
-    <level>trace</level>
-    <flush>info</flush>
-    <thread>1</thread>
-  </log>
-  <log2>
-    <name2>gate2</name2>
-    <path2>log/gateserver.log2</path2>
-    <level2>trace2</level2>
-    <flush2>info2</flush2>
-    <thread2>2</thread2>
-  </log2>
+<name>gate</name>
+<thread>1</thread>
 
-  <!--
-	<queueserver>
-		<item ip="127.0.0.1" port="1235" />
-		<item ip="127.0.0.1" port="1236" />
-  </queueserver>
-  -->
-</gateserver>
+<item ip="127.0.0.1" />
+<test name="abc" />
+
+
+<a id ="1">
+  <name>gate</name>
+  <thread>1</thread>
+</a>
+
+
+<item2 ip="127.0.0.1">
+  <name>test</name>
+  <a id ="1">
+    <name>gate</name>
+    <thread>1</thread>
+  </a>
+
+</item2>
+
+
+<day>abc</day>
+<day>yui</day>
+<day>zxc</day>
+
+<b>
+  <c>
+    <day>abc</day>
+    <day>yui</day>
+    <day>zxc</day>
+    <name>abc</name>
+    <item>1</item>
+    <item>2</item>
+  </c>
+</b>
+
+<item3 ip="127.0.0.1" port="1235" />
+<item3 ip="127.0.0.2" port="1234" />
+<item3 ip="127.0.0.3" port="1231" />
+
+
+<d>
+  <item3 ip="127.0.0.1" port="1235">
+    <a>a</a>
+    <b>b</b>
+  </item3>
+  <item3 ip="127.0.0.2" port="1234">
+    <a>d</a>
+    <b>e</b>
+  </item3>
+  <item3 ip="127.0.0.3" port="1231">
+    <a>f</a>
+    <b>e</b>
+  </item3>
+</d>
