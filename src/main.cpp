@@ -304,7 +304,7 @@ int main() {
   pugi::xml_parse_result xml_load_result =
       xml_doc.load_file("gateserver.xml.example");
   if (!xml_load_result) {
-    std::cerr << "Error: xml load fail!" << std::endl;
+    std::cerr << "Error: " << xml_load_result.description() << std::endl;
     return 1;
   }
 
