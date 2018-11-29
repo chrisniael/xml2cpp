@@ -60,8 +60,9 @@ std::string TextDefine(const std::string& var_name) {
   return fmt::format("pugi::xml_text {0}_;\n", var_name);
 }
 
-std::string GetTextFunc(const std::string& var_name) {
-  return fmt::format("pugi::xml_text {0}() {{ return {0}_; }}\n", var_name);
+std::string GetTextConstFunc(const std::string& var_name) {
+  return fmt::format("const pugi::xml_text& {0}() const {{ return {0}_; }}\n",
+                     var_name);
 }
 
 std::string TextInit(const std::string& var_name) {
@@ -78,9 +79,10 @@ std::string VecTextDefine(const std::string& var_name) {
   return fmt::format("std::vector<pugi::xml_text> {0}_;\n", var_name);
 }
 
-std::string GetVecTextFunc(const std::string& var_name) {
-  return fmt::format("std::vector<pugi::xml_text> {0}() {{ return {0}_; }}\n",
-                     var_name);
+std::string GetVecTextConstFunc(const std::string& var_name) {
+  return fmt::format(
+      "const std::vector<pugi::xml_text>& {0}() const {{ return {0}_; }}\n",
+      var_name);
 }
 
 std::string VecTextInit(const std::string& var_name) {
@@ -100,6 +102,10 @@ std::string MemberVarDefine(const std::string& var_name) {
   return fmt::format("_{0}_ {0}_;\n", var_name);
 }
 
+std::string GetMemberVarConstFunc(const std::string& var_name) {
+  return fmt::format("const _{0}_& {0}() const {{ return {0}_; }}\n", var_name);
+}
+
 std::string GetMemberVarFunc(const std::string& var_name) {
   return fmt::format("_{0}_& {0}() {{ return {0}_; }}\n", var_name);
 }
@@ -116,9 +122,9 @@ std::string MemberVecVarDefine(const std::string& var_name) {
   return fmt::format("std::vector<_{0}_> {0}_;\n", var_name);
 }
 
-std::string GetMemberVecVarFunc(const std::string& var_name) {
-  return fmt::format("std::vector<_{0}_>& {0}() {{ return {0}_; }}\n",
-                     var_name);
+std::string GetMemberVecVarConstFunc(const std::string& var_name) {
+  return fmt::format(
+      "const std::vector<_{0}_>& {0}() const {{ return {0}_; }}\n", var_name);
 }
 
 std::string MemberVecVarInit(const std::string& var_name) {
@@ -208,7 +214,7 @@ std::string ParseNormalNode(pugi::xml_node node, std::stringstream& ss) {
   }
   if (is_child_plain_data) {
     ss << TextDefine(node.name());
-    ss << GetTextFunc(node.name());
+    ss << GetTextConstFunc(node.name());
     ss << std::endl;
 
     return fmt::format("{0}\n", TextInit(node.name()));
@@ -236,7 +242,7 @@ std::string ParseNormalNode(pugi::xml_node node, std::stringstream& ss) {
 
   ss << ClassEnd(node.name());
   ss << MemberVarDefine(node.name());
-  ss << GetMemberVarFunc(node.name());
+  ss << GetMemberVarConstFunc(node.name());
 
   return fmt::format("{0}\n", MemberVarInit(node.name()));
 }
@@ -254,7 +260,7 @@ std::string ParseRepeatedNode(pugi::xml_node node, std::stringstream& ss) {
   }
   if (is_child_plain_data) {
     ss << VecTextDefine(node.name());
-    ss << GetVecTextFunc(node.name());
+    ss << GetVecTextConstFunc(node.name());
     ss << std::endl;
 
     return fmt::format("{0}\n", VecTextInit(node.name()));
@@ -282,7 +288,7 @@ std::string ParseRepeatedNode(pugi::xml_node node, std::stringstream& ss) {
 
   ss << ClassEnd(node.name());
   ss << MemberVecVarDefine(node.name());
-  ss << GetMemberVecVarFunc(node.name());
+  ss << GetMemberVecVarConstFunc(node.name());
 
   return fmt::format("{0}\n", MemberVecVarInit(node.name()));
 

@@ -9,4 +9,4 @@
 * [ ] string 转化成大写函数
 * [ ] struct 改成 class
 * [ ] 成员变量设置 private 属性
-* [ ] getter 函数设置 const 函数属性
+* [x] getter 函数设置 const 函数属性
