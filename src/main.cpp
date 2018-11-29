@@ -289,7 +289,10 @@ std::string ParseRepeatedNode(pugi::xml_node node, std::stringstream& ss) {
   return "";
 }
 
-void ParseRootNode(pugi::xml_node node, std::stringstream& ss) {
+void ParseRootNode(const std::string& xml_example_name, pugi::xml_node node,
+                   std::stringstream& ss) {
+  ss << ClassBeg(xml_example_name);
+
   std::string code_member_var_init = ParseChildNode(node, ss);
 
   ss << GlobalInitFuncBeg();
@@ -297,24 +300,31 @@ void ParseRootNode(pugi::xml_node node, std::stringstream& ss) {
   ss << code_member_var_init;
   ss << std::endl;
   ss << GlobalInitFuncEnd();
+
+  ss << ClassEnd(xml_example_name);
+  ss << MemberVarDefine(xml_example_name);
+  ss << GetMemberVarFunc(xml_example_name);
 }
 
 int main() {
+  std::string xml_example_name = "gateserver";
+
   pugi::xml_document xml_doc;
-  pugi::xml_parse_result xml_load_result =
-      xml_doc.load_file("gateserver.xml.example");
+  pugi::xml_parse_result xml_load_result = xml_doc.load_file(
+      fmt::format("{}.xml.example", xml_example_name).c_str());
   if (!xml_load_result) {
-    std::cerr << "Error: " << xml_load_result.description() << std::endl;
+    std::cerr << "Err: " << xml_load_result.description() << std::endl;
     return 1;
   }
 
   std::stringstream ss;
-  ParseRootNode(xml_doc, ss);
+  ParseRootNode(xml_example_name, xml_doc, ss);
 
   std::ofstream fout;
-  fout.open("src/gateserver.xml.h", std::ios_base::out | std::ios_base::trunc);
+  fout.open(fmt::format("src/{}.xml.h", xml_example_name),
+            std::ios_base::out | std::ios_base::trunc);
 
-  fout << FileMacroDefineBeg("gateserver");
+  fout << FileMacroDefineBeg(xml_example_name);
   fout << std::endl;
   fout << IncludeHeader("string");
   fout << IncludeHeader("vector");
@@ -328,5 +338,5 @@ int main() {
 
   fout << NamespaceDefineEnd("config");
   fout << std::endl;
-  fout << FileMacroDefineEnd("gateserver");
+  fout << FileMacroDefineEnd(xml_example_name);
 }
