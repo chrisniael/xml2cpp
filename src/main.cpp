@@ -2,7 +2,7 @@
  * @file main.cpp
  * @brief main
  * @author shenyu, shenyu@shenyu.me
- * @version
+ * @version 1.0
  * @date 2018-11-26
  */
 
@@ -15,6 +15,8 @@
 
 #include <fmt/format.h>
 #include <pugixml.hpp>
+
+#define XML2CPP_VERSION "1.0"
 
 std::string GlobalInitFuncBeg() {
   return fmt::format(
@@ -409,13 +411,19 @@ Xml2CppRes Xml2Cpp(const std::string& xml_example_file,
   return Xml2CppResOk;
 }
 
-std::string HelpInfo() { return "Usage: xml2cpp [--out=DIR] --file=FILE"; }
+void HelpInfo() {
+  std::cout << "Usage: xml2cpp [--out=DIR] --file=FILE" << std::endl;
+}
 
 enum ParseCmdLineRes {
   ParseCmdLineResOK = 0,
   ParseCmdLineResErr = 1,
   ParseCmdLineResEnd = 2
 };
+
+void VersionInfo() {
+  std::cout << fmt::format("{}", XML2CPP_VERSION) << std::endl;
+}
 
 ParseCmdLineRes ParseCmdLine(int argc, char* argv[],
                              std::string* xml_example_file,
@@ -425,6 +433,7 @@ ParseCmdLineRes ParseCmdLine(int argc, char* argv[],
   struct option opts[] = {{"out", optional_argument, nullptr, 'o'},
                           {"file", required_argument, nullptr, 'f'},
                           {"help", no_argument, nullptr, 'h'},
+                          {"version", no_argument, nullptr, 'v'},
                           {nullptr, 0, nullptr, '?'}};
   while ((c = getopt_long(argc, argv, optstring, opts, nullptr)) != -1) {
     switch (c) {
@@ -441,6 +450,11 @@ ParseCmdLineRes ParseCmdLine(int argc, char* argv[],
         *xml_example_file = optarg;
         break;
       case 'h':
+        HelpInfo();
+        return ParseCmdLineResEnd;
+        break;
+      case 'v':
+        VersionInfo();
         return ParseCmdLineResEnd;
         break;
       case '?':
@@ -472,9 +486,9 @@ int main(int argc, char* argv[]) {
       return xml2cpp_res;
     }
   } else if (parse_cmd_line_res == ParseCmdLineResEnd) {
-    std::cout << HelpInfo() << std::endl;
+    return 0;
   } else {
-    std::cout << HelpInfo() << std::endl;
+    HelpInfo();
     return parse_cmd_line_res;
   }
 
