@@ -466,7 +466,11 @@ ParseCmdLineRes ParseCmdLine(int argc, char* argv[],
     }
   }
 
-  if (xml_example_file->size() > 0 && out_dir->size() > 0) {
+  if (out_dir->size() == 0) {
+    *out_dir = "./";
+  }
+
+  if (xml_example_file->size() > 0) {
     return ParseCmdLineResOK;
   } else {
     return ParseCmdLineResErr;
