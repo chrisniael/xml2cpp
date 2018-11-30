@@ -7,6 +7,7 @@
  */
 
 #include <getopt.h>
+#include <unistd.h>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -321,12 +322,15 @@ bool ParseXmlExampleFileName(const std::string& xml_example_file,
   return true;
 }
 
+bool DirExist(const std::string& dir) { return access(dir.c_str(), F_OK) == 0; }
+
 enum Xml2CppRes {
   Xml2CppResOk = 0,
   Xml2CppResFileNameErr = 11,
   Xml2CppResFileNotExist,
-  Xml2CppResOutDirInvlid,
+  Xml2CppResOutDirNostExist,
   Xml2CppResParseError,
+  Xml2CppResWriteFileFail,
 };
 
 std::string Xml2CppResDesc(const Xml2CppRes& xml2cpp_res) {
@@ -340,11 +344,14 @@ std::string Xml2CppResDesc(const Xml2CppRes& xml2cpp_res) {
     case (Xml2CppResFileNotExist):
       return "File nost exist.";
       break;
-    case (Xml2CppResOutDirInvlid):
-      return "Out directory invalid.";
+    case (Xml2CppResOutDirNostExist):
+      return "Out directory not exist.";
       break;
     case (Xml2CppResParseError):
       return "Parse xml error.";
+      break;
+    case (Xml2CppResWriteFileFail):
+      return "Write file fail.";
       break;
     default:
       return "";
@@ -354,7 +361,10 @@ std::string Xml2CppResDesc(const Xml2CppRes& xml2cpp_res) {
 
 Xml2CppRes Xml2Cpp(const std::string& xml_example_file,
                    const std::string& out_dir) {
-  // TODO: 判断目录是否有效
+  // TODO: 判断目录是否存在
+  if (!DirExist(out_dir)) {
+    return Xml2CppResOutDirNostExist;
+  }
 
   std::string xml_example_name;
   if (!ParseXmlExampleFileName(xml_example_file, &xml_example_name)) {
@@ -376,6 +386,9 @@ Xml2CppRes Xml2Cpp(const std::string& xml_example_file,
   std::ofstream fout;
   fout.open(fmt::format("{}/{}.xml.h", out_dir, xml_example_name),
             std::ios_base::out | std::ios_base::trunc);
+  if (!fout.is_open()) {
+    return Xml2CppResWriteFileFail;
+  }
 
   fout << FileMacroDefineBeg(xml_example_name);
   fout << std::endl;
@@ -396,7 +409,7 @@ Xml2CppRes Xml2Cpp(const std::string& xml_example_file,
   return Xml2CppResOk;
 }
 
-std::string HelpInfo() { return "Usage: xml2cpp [--out DIR] --file FILE"; }
+std::string HelpInfo() { return "Usage: xml2cpp [--out=DIR] --file=FILE"; }
 
 enum ParseCmdLineRes {
   ParseCmdLineResOK = 0,
