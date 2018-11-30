@@ -1,0 +1,12 @@
+<?xml version="1.0" enconding="UTF-8"?>
+<example name="xml2cpp">
+  <log>
+    <name>test</name>
+    <level>trace</level>
+    <thread>1</thread>
+  </log>
+  <servers>
+    <server ip="192.168.1.1" port="1234" />
+    <server ip="192.168.1.2" port="1235" />
+  </servers>
+</example>

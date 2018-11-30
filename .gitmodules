@@ -4,3 +4,9 @@
 [submodule "opt/pugixml"]
 	path = opt/pugixml
 	url = https://github.com/zeux/pugixml.git
+[submodule "test/opt/fmt"]
+	path = test/opt/fmt
+	url = https://github.com/fmtlib/fmt.git
+[submodule "test/opt/pugixml"]
+	path = test/opt/pugixml
+	url = https://github.com/zeux/pugixml.git
