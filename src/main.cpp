@@ -2,7 +2,7 @@
  * @file main.cpp
  * @brief main
  * @author shenyu, shenyu@shenyu.me
- * @version 1.0
+ * @version 1.1
  * @date 2018-11-26
  */
 
@@ -16,7 +16,7 @@
 #include <fmt/format.h>
 #include <pugixml.hpp>
 
-#define XML2CPP_VERSION "1.0"
+#define XML2CPP_VERSION "1.1"
 
 std::string GlobalInitFuncBeg() {
   return fmt::format(
